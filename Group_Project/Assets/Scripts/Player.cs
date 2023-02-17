@@ -46,5 +46,11 @@ public class Player : MonoBehaviour
         {
             Script.ChangeAnimation(0);
         }
+
+        if (GetComponent<Rigidbody>().velocity.y !> 0.2f)
+        {
+            Isgrounded = true;
+        }
+
     }
 }
