@@ -19,6 +19,9 @@ public class SpriteAnimatorScript : MonoBehaviour
 
     public bool useUnscaledTime = false;
 
+    [SerializeField]
+    public int animationState = -1;
+
     private float animationSpeed = 0;
     private bool animationLoop = true;
     private int currentAnimation = 0;
@@ -64,15 +67,19 @@ public class SpriteAnimatorScript : MonoBehaviour
         PlayingAnimation();
     }
 
-    private void ChangeAnimation(int spriteTargetID)
+    public void ChangeAnimation(int spriteTargetID)
     {
-        currentSpriteList = animationList[spriteTargetID].spriteList;
+        if (animationState != spriteTargetID)
+        {
+            currentSpriteList = animationList[spriteTargetID].spriteList;
 
-        currentAnimation = 0;
-        timer = 0;
-        GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentAnimation];
+            currentAnimation = 0;
+            timer = 0;
+            GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentAnimation];
 
-        methodPlayAnimation = true;
+            methodPlayAnimation = true;
+            animationState = spriteTargetID;
+        }
     }
 
     private void SetAnimationSpeed(float speed, bool loop)
