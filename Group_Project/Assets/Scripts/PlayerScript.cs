@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+
     public int speed;
     public bool onGround;
     public SpriteAnimatorScript spriteAnimatorScript;
@@ -33,14 +34,15 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (onGround && GetComponent<Rigidbody>().velocity.y <= 0)
-            {
-                GetComponent<Rigidbody>().velocity += new Vector3(0, 5, 0);
-                onGround = false;
-                spriteAnimatorScript.ChangeAnimation(3);
-            }
+            JumpGroundCheck();
         }
 
+        LandCheck();
+
+    }
+
+    private void LandCheck()
+    {
         if (onGround && GetComponent<Rigidbody>().velocity.y <= 0)
         {
             if (GetComponent<Rigidbody>().velocity.x > 0.2f || GetComponent<Rigidbody>().velocity.x < 0.2f && GetComponent<Rigidbody>().velocity.x != 0f)
@@ -52,6 +54,15 @@ public class PlayerScript : MonoBehaviour
                 spriteAnimatorScript.ChangeAnimation(0);
             }
         }
+    }
 
+    private void JumpGroundCheck()
+    {
+        if (onGround && GetComponent<Rigidbody>().velocity.y <= 0)
+        {
+            GetComponent<Rigidbody>().velocity += new Vector3(0, 5, 0);
+            onGround = false;
+            spriteAnimatorScript.ChangeAnimation(3);
+        }
     }
 }
