@@ -22,7 +22,6 @@ public class PlayerGroundCheckerScript : MonoBehaviour
         else
         {
             playerScript.onGround = false;
-            Debug.Log("air");
         }
     }
 
@@ -34,8 +33,6 @@ public class PlayerGroundCheckerScript : MonoBehaviour
             {
                 groundedCheck = true;
                 playerScript.onGround = true;
-
-                Debug.Log("ground");
             }
         }
     }

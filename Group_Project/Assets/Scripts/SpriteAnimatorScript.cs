@@ -19,21 +19,12 @@ public class SpriteAnimatorScript : MonoBehaviour
 
     public bool useUnscaledTime = false;
 
-    [SerializeField]
-    public int animationState = -1;
-
+    private int animationState = -1;
     private float animationSpeed = 0;
     private bool animationLoop = true;
     private int currentAnimation = 0;
     private float timer = 0;
     private bool methodPlayAnimation = true;
-
-    [Space]
-    [Space]
-
-    public int debugSetAnimation = 0;
-    public float debugAnimationSpeed = 0;
-    public bool debugLoop = true;
 
     // Start is called before the first frame update
     void Start()
@@ -45,25 +36,6 @@ public class SpriteAnimatorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /* debugger
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Time.timeScale -= 0.1f;
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Time.timeScale += 0.1f;
-        }
-        */
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            ChangeAnimation(debugSetAnimation);
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetAnimationSpeed(debugAnimationSpeed, debugLoop);
-        }
-
         PlayingAnimation();
     }
 

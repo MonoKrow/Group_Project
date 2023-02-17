@@ -17,7 +17,6 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Input.GetKey(KeyCode.A))
         {
             GetComponent<Rigidbody>().velocity -= new Vector3(speed * Time.deltaTime, 0, 0);
@@ -53,5 +52,14 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<CollectableItemScript>())
+        {
+            other.gameObject.GetComponent<CollectableItemScript>().onRun();
+        }
     }
 }
