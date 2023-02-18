@@ -54,7 +54,7 @@ public class SpriteAnimatorScript : MonoBehaviour
         }
     }
 
-    private void SetAnimationSpeed(float speed, bool loop)
+    public void SetAnimationSpeed(float speed, bool loop)
     {
         animationSpeed = speed;
 
