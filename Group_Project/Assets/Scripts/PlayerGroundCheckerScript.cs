@@ -30,13 +30,18 @@ public class PlayerGroundCheckerScript : MonoBehaviour
     {
         if (other.gameObject != playerScript.gameObject)
         {
-            if (!groundedCheck)
-            {
-                groundedCheck = true;
-                playerScript.onGround = true;
+            IsGroundedCheck();
+        }
+    }
 
-                Debug.Log("ground");
-            }
+    private void IsGroundedCheck()
+    {
+        if (!groundedCheck)
+        {
+            groundedCheck = true;
+            playerScript.onGround = true;
+
+            Debug.Log("ground");
         }
     }
 }
