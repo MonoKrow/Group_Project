@@ -60,7 +60,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (onGround && GetComponent<Rigidbody>().velocity.y <= 0)
         {
-            GetComponent<Rigidbody>().velocity += new Vector3(0, 5, 0);
+            GetComponent<Rigidbody>().velocity += new Vector3(0, 7, 0);
             onGround = false;
             spriteAnimatorScript.ChangeAnimation(3);
         }
