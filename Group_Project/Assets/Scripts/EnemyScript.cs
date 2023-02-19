@@ -23,8 +23,10 @@ public class EnemyScript : MonoBehaviour
 
     [HideInInspector]
     public bool jumpCheckB = true;
-    [HideInInspector]
+
     public List<bool> jumpCheckT = new List<bool>();
+
+    private bool fixUpdateJump = false;
 
     // Start is called before the first frame update
     void Start()
@@ -39,50 +41,54 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!jumpCheckB && GetComponent<Rigidbody>().velocity.y <= 0)
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (!jumpCheckB)
         {
             onJump();
         }
 
         if (movingRight)
         {
-            GetComponent<Rigidbody>().velocity += new Vector3(speed * Time.deltaTime, 0, 0);
+            GetComponent<Rigidbody>().velocity += new Vector3(speed * Time.fixedDeltaTime, 0, 0);
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
         else
         {
-            GetComponent<Rigidbody>().velocity -= new Vector3(speed * Time.deltaTime, 0, 0);
+            GetComponent<Rigidbody>().velocity -= new Vector3(speed * Time.fixedDeltaTime, 0, 0);
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
     }
 
     public void onJump()
     {
-        if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround && jumpCheckT.Contains(true))
+        if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
         {
-            GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, jumpHeight, GetComponent<Rigidbody>().velocity.z);
-        }
-        else
-        {
-            onTurn();
+            if (jumpCheckT.Contains(true))
+            {
+                GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, jumpHeight, GetComponent<Rigidbody>().velocity.z);
+            }
+            else
+            {
+                onTurn();
+            }
         }
     }
 
     public void onTurn()
     {
-        if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
+        if (GetComponent<Rigidbody>().velocity.x > 0)
         {
-            if (GetComponent<Rigidbody>().velocity.x > 0)
-            {
-                movingRight = false;
-            }
-            else if (GetComponent<Rigidbody>().velocity.x < 0)
-            {
-                movingRight = true;
-            }
+            movingRight = false;
+        }
+        else if (GetComponent<Rigidbody>().velocity.x < 0)
+        {
+            movingRight = true;
         }
     }
 

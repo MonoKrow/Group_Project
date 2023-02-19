@@ -11,7 +11,8 @@ public class GameMannager : MonoBehaviour
     [Space]
     [Space]
 
-    public float score = 0;
+    public float itemLeft = 0;
+    public float health = 0;
 
     [Space]
     [Space]
@@ -43,7 +44,7 @@ public class GameMannager : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.Alpha1))
         {
@@ -64,9 +65,9 @@ public class GameMannager : MonoBehaviour
     }
 
 
-    public void scoreIncrease(float amount)
+    public void itemCountChange(float amount)
     {
-        score += amount;
+        itemLeft += amount;
     }
 
     public void changeGameState(gameStateList state)

@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class GroundCheckerScript : MonoBehaviour
 {
-    public GameObject target;
+    public GameObject mainTarget;
+    public GameObject hitboxTarget;
 
     public bool onGround = false;
-
-    public bool groundedCheck = false;
-
+    private bool groundedCheck = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +31,7 @@ public class GroundCheckerScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == target)
+        if (mainTarget.GetComponent<Rigidbody>().velocity.y > 0 || other.gameObject == hitboxTarget || other.GetComponent<PlayerScript>() || other.GetComponent<EnemyScript>())
         {
             return;
         }
@@ -41,12 +40,12 @@ public class GroundCheckerScript : MonoBehaviour
         {
             if (other.GetComponent<BoxCollider>().isTrigger == false)
             {
-                collidePass();
+                isGroundedCheck();
             }
         }
     }
 
-    private void collidePass()
+    private void isGroundedCheck()
     {
         if (!groundedCheck)
         {

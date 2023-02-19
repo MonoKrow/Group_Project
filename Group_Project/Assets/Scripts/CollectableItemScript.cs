@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollectableItemScript : MonoBehaviour
 {
-    public float scoreIncrease;
+    public float itemChangeAmount;
 
     private bool onRunning = false;
 
@@ -18,7 +18,7 @@ public class CollectableItemScript : MonoBehaviour
         if (!onRunning)
         {
             onRunning = true;
-            GameMannager.instance.scoreIncrease(scoreIncrease);
+            GameMannager.instance.itemCountChange(itemChangeAmount);
             Destroy(gameObject);
         }
     }

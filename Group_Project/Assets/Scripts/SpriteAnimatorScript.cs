@@ -13,16 +13,18 @@ public class SpriteAnimatorScript : MonoBehaviour
     [Space]
 
     public List<AnimationList> animationList = new List<AnimationList>();
-    private List<Sprite> currentSpriteList;
+    public List<Sprite> currentSpriteList;
 
     [Space]
 
     public bool useUnscaledTime = false;
 
-    private int animationState = -1;
+    [HideInInspector]
+    public int currentAnimation = -1;
+
+    private int currentFrame = 0;
     private float animationSpeed = 0;
     private bool animationLoop = true;
-    private int currentAnimation = 0;
     private float timer = 0;
     private bool methodPlayAnimation = true;
 
@@ -34,23 +36,23 @@ public class SpriteAnimatorScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         PlayingAnimation();
     }
 
     public void ChangeAnimation(int spriteTargetID)
     {
-        if (animationState != spriteTargetID)
+        if (currentAnimation != spriteTargetID)
         {
             currentSpriteList = animationList[spriteTargetID].spriteList;
 
-            currentAnimation = 0;
+            currentFrame = 0;
             timer = 0;
-            GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentAnimation];
+            GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentFrame];
 
             methodPlayAnimation = true;
-            animationState = spriteTargetID;
+            currentAnimation = spriteTargetID;
         }
     }
 
@@ -78,24 +80,24 @@ public class SpriteAnimatorScript : MonoBehaviour
 
         if (useUnscaledTime)
         {
-            timer += Time.unscaledDeltaTime * animationSpeed;
+            timer += Time.fixedUnscaledDeltaTime * animationSpeed;
         }
         else
         {
-            timer += Time.deltaTime * animationSpeed;
+            timer += Time.fixedDeltaTime * animationSpeed;
         }
 
         if (timer > 1 || timer < 0)
         {
             int addFrames = Mathf.FloorToInt(timer);
-            currentAnimation += addFrames;
+            currentFrame += addFrames;
 
-            if ((timer > 1 && currentAnimation >= currentSpriteList.Count) || (timer < 0 && currentAnimation < 0))
+            if ((timer > 1 && currentFrame >= currentSpriteList.Count) || (timer < 0 && currentFrame < 0))
             {
                 if (animationLoop)
                 {
-                    int removeFrames = Mathf.FloorToInt(((float)currentAnimation) / currentSpriteList.Count);
-                    currentAnimation -= removeFrames * currentSpriteList.Count;
+                    int removeFrames = Mathf.FloorToInt(((float)currentFrame) / currentSpriteList.Count);
+                    currentFrame -= removeFrames * currentSpriteList.Count;
                 }
                 else
                 {
@@ -108,6 +110,6 @@ public class SpriteAnimatorScript : MonoBehaviour
             timer -= addFrames;
         }
 
-        GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentAnimation];
+        GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentFrame];
     }
 }

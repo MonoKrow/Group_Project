@@ -15,7 +15,7 @@ public class CameraScript : MonoBehaviour
         transform.position = new Vector3(playerTransform.position.x + offset.x, playerTransform.position.y + offset.y, transform.position.z);
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         if (Input.mouseScrollDelta.y == -1 && Camera.main.orthographicSize < 1.95f)
         {
@@ -57,6 +57,6 @@ public class CameraScript : MonoBehaviour
             temp = playerTransform.position - (transform.position - new Vector3(offset.x, offset.y, 0));
         }
         temp = new Vector3(temp.x, temp.y, 0);
-        transform.position += temp * moveStrength * Time.deltaTime;
+        transform.position += temp * moveStrength * Time.fixedDeltaTime;
     }
 }

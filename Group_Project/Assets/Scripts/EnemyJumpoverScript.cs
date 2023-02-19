@@ -13,6 +13,8 @@ public class EnemyJumpoverScript : MonoBehaviour
     [HideInInspector]
     public int checkerID = 0;
 
+    private bool delayCheck = false;
+
     void Start()
     {
 
@@ -20,13 +22,20 @@ public class EnemyJumpoverScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (jumpChecker)
+        if (delayCheck)
         {
-            target.jumpCheckT[checkerID] = true;
+            delayCheck = false;
         }
         else
         {
-            target.jumpCheckB = true;
+            if (jumpChecker)
+            {
+                target.jumpCheckT[checkerID] = true;
+            }
+            else
+            {
+                target.jumpCheckB = true;
+            }
         }
     }
 
@@ -72,5 +81,6 @@ public class EnemyJumpoverScript : MonoBehaviour
         {
             target.jumpCheckB = false;
         }
+        delayCheck = true;
     }
 }

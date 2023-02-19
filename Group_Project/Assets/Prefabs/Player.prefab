@@ -101,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundCheckerObject: {fileID: 6380054394428757861}
   speed: 2
+  frictionGround: 0.95
+  frictionAir: 0.98
   spriteAnimatorScript: {fileID: 0}
   knockbackCD: 0
 --- !u!114 &6380054393699857943
@@ -148,6 +150,7 @@ MonoBehaviour:
     - {fileID: 4002782948548970526, guid: 85bd4a177f2e20d4f86c11778f27954f, type: 3}
     - {fileID: 1743679609081587897, guid: 85bd4a177f2e20d4f86c11778f27954f, type: 3}
   useUnscaledTime: 0
+  currentAnimation: -1
 --- !u!54 &6380054393699857939
 Rigidbody:
   m_ObjectHideFlags: 0
