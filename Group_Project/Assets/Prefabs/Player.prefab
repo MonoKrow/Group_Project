@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6380054393699857940}
   - component: {fileID: 6380054393699857943}
   - component: {fileID: 6380054393699857939}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,11 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheckerObject: {fileID: 6380054394428757861}
-  speed: 2
-  frictionGround: 0.95
-  frictionAir: 0.98
-  spriteAnimatorScript: {fileID: 0}
-  knockbackCD: 0
+  speed: 4.5
+  airSpeed: 3
+  maxSpeed: 1.3
+  jumpPower: 4
+  frictionGround: 0.1
+  frictionAir: 0.75
+  spriteAnimatorScript: {fileID: 6380054393699857943}
+  knockbackCD: -0.00000008940697
 --- !u!114 &6380054393699857943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +152,10 @@ MonoBehaviour:
     - {fileID: 5649927140825343273, guid: 85bd4a177f2e20d4f86c11778f27954f, type: 3}
     - {fileID: 4002782948548970526, guid: 85bd4a177f2e20d4f86c11778f27954f, type: 3}
     - {fileID: 1743679609081587897, guid: 85bd4a177f2e20d4f86c11778f27954f, type: 3}
+  currentSpriteList: []
   useUnscaledTime: 0
   currentAnimation: -1
+  methodPlayAnimation: 1
 --- !u!54 &6380054393699857939
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -178,7 +183,7 @@ GameObject:
   - component: {fileID: 6380054394428757860}
   - component: {fileID: 6380054394428757857}
   - component: {fileID: 6380054394428757859}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheckerHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,9 +229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7374ecc82070d48823b6e950f51123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 6380054395472802309}
+  mainTarget: {fileID: 6380054393699858024}
+  hitboxTarget: {fileID: 6380054395472802309}
   onGround: 0
-  groundedCheck: 0
 --- !u!1 &6380054395472802309
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +244,7 @@ GameObject:
   - component: {fileID: 6380054395472802306}
   - component: {fileID: 6380054395472802305}
   - component: {fileID: 6380054395472802307}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MainHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

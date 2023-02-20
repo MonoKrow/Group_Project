@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameMannager : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class GameMannager : MonoBehaviour
     public GameObject gamewinMenu;
     public GameObject gameoverMenu;
 
+    public Text fpsTargetText;
+
     [SerializeField]
     public enum gameStateList
     {
@@ -44,7 +47,7 @@ public class GameMannager : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetKey(KeyCode.Alpha1))
         {
@@ -64,6 +67,25 @@ public class GameMannager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.Minus))
+        {
+            if (1 / Time.fixedDeltaTime > 30.9f)
+            {
+                Time.fixedDeltaTime = 1f / ((1 / Time.fixedDeltaTime) - 1);
+                fpsTargetText.text = "Targeted FPS: " + 1 / Time.fixedDeltaTime;
+            }
+        }
+        else if (Input.GetKey(KeyCode.Equals))
+        {
+            if (1 / Time.fixedDeltaTime < 239.9f)
+            {
+                Time.fixedDeltaTime = 1f / ((1 / Time.fixedDeltaTime) + 1);
+                fpsTargetText.text = "Targeted FPS: " + 1 / Time.fixedDeltaTime;
+            }
+        }
+    }
 
     public void itemCountChange(float amount)
     {

@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    public List<GameObject> areaLimitGroup;
+
     public GameObject groundCheckerObject;
     public GameObject jumpCheckGroup;
 
     public bool movingRight = true;
     public float speed;
+    public float airSpeed;
     public float jumpHeight;
     public Vector3 knockbackForce;
     public Vector3 knockbackForceMutiplyer;
@@ -23,7 +26,7 @@ public class EnemyScript : MonoBehaviour
 
     [HideInInspector]
     public bool jumpCheckB = true;
-
+    [HideInInspector]
     public List<bool> jumpCheckT = new List<bool>();
 
     private bool fixUpdateJump = false;
@@ -48,6 +51,15 @@ public class EnemyScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
+        {
+            GetComponent<Rigidbody>().velocity *= Mathf.Pow(0.1f, Time.fixedDeltaTime);
+        }
+        else
+        {
+            GetComponent<Rigidbody>().velocity *= Mathf.Pow(0.75f, Time.fixedDeltaTime);
+        }
+
         if (!jumpCheckB)
         {
             onJump();
@@ -55,12 +67,28 @@ public class EnemyScript : MonoBehaviour
 
         if (movingRight)
         {
-            GetComponent<Rigidbody>().velocity += new Vector3(speed * Time.fixedDeltaTime, 0, 0);
+            if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
+            {
+                GetComponent<Rigidbody>().velocity += new Vector3(speed * Time.fixedDeltaTime, 0, 0);
+            }
+            else
+            {
+                GetComponent<Rigidbody>().velocity += new Vector3(airSpeed * Time.fixedDeltaTime, 0, 0);
+            }
+
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
         else
         {
-            GetComponent<Rigidbody>().velocity -= new Vector3(speed * Time.fixedDeltaTime, 0, 0);
+            if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
+            {
+                GetComponent<Rigidbody>().velocity -= new Vector3(speed * Time.fixedDeltaTime, 0, 0);
+            }
+            else
+            {
+                GetComponent<Rigidbody>().velocity -= new Vector3(airSpeed * Time.fixedDeltaTime, 0, 0);
+            }
+
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
     }

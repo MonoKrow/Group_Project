@@ -21,18 +21,18 @@ public class SpriteAnimatorScript : MonoBehaviour
 
     [HideInInspector]
     public int currentAnimation = -1;
+    [HideInInspector]
+    public bool methodPlayAnimation = true;
 
     private int currentFrame = 0;
     private float animationSpeed = 0;
     private bool animationLoop = true;
     private float timer = 0;
-    private bool methodPlayAnimation = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        ChangeAnimation(0);
-        SetAnimationSpeed(12, true);
+        ChangeAnimation(0, 12, true);
     }
 
     // Update is called once per frame
@@ -41,7 +41,7 @@ public class SpriteAnimatorScript : MonoBehaviour
         PlayingAnimation();
     }
 
-    public void ChangeAnimation(int spriteTargetID)
+    public void ChangeAnimation(int spriteTargetID, float speed, bool loop)
     {
         if (currentAnimation != spriteTargetID)
         {
@@ -54,10 +54,7 @@ public class SpriteAnimatorScript : MonoBehaviour
             methodPlayAnimation = true;
             currentAnimation = spriteTargetID;
         }
-    }
 
-    public void SetAnimationSpeed(float speed, bool loop)
-    {
         animationSpeed = speed;
 
         if (loop)

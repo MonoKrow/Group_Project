@@ -52,6 +52,10 @@ public class EnemyJumpoverScript : MonoBehaviour
             {
                 collidePass();
             }
+            else if (target.areaLimitGroup.Contains(other.gameObject))
+            {
+                collidePass();
+            }
         }
     }
 
@@ -65,6 +69,10 @@ public class EnemyJumpoverScript : MonoBehaviour
         if (other.GetComponent<BoxCollider>())
         {
             if (other.GetComponent<BoxCollider>().isTrigger == false)
+            {
+                collidePass();
+            }
+            else if (target.areaLimitGroup.Contains(other.gameObject))
             {
                 collidePass();
             }

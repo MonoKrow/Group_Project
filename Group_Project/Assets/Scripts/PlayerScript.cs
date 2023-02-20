@@ -22,32 +22,32 @@ public class PlayerScript : MonoBehaviour
 
     private int keyDownMoveJump = 0;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         spriteAnimatorScript = GetComponent<SpriteAnimatorScript>();
     }
 
-    private void Update()
-    {
-
-    }
-
     private void FixedUpdate()
     {
+        //Cooldown:
         if (knockbackCD > 0)
         {
             knockbackCD -= Time.fixedDeltaTime;
         }
 
+        //EarlyCheckers:
+
         if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
         {
-            GetComponent<Rigidbody>().velocity *= Mathf.Pow(frictionGround,Time.fixedDeltaTime);
+            GetComponent<Rigidbody>().velocity *= Mathf.Pow(frictionGround, Time.fixedDeltaTime);
         }
         else
         {
             GetComponent<Rigidbody>().velocity *= Mathf.Pow(frictionAir, Time.fixedDeltaTime);
         }
+
+        //Inputs:
 
         if (Input.GetKey(KeyCode.A))
         {
@@ -71,7 +71,7 @@ public class PlayerScript : MonoBehaviour
             keyDownMoveJump = 0;
         }
 
-
+        //ScriptsUpdate:
 
         if (keyDownMoveJump == 1)
         {
@@ -146,13 +146,21 @@ public class PlayerScript : MonoBehaviour
         {
             if (GetComponent<Rigidbody>().velocity.y <= 0)
             {
-                if (GetComponent<Rigidbody>().velocity.magnitude > 0.2f)
+                if (GetComponent<Rigidbody>().velocity.x > -0.2f && GetComponent<Rigidbody>().velocity.x < 0.2f)
                 {
-                    spriteAnimatorScript.ChangeAnimation(1);
+                    spriteAnimatorScript.ChangeAnimation(0, 12, true);
                 }
                 else
                 {
-                    spriteAnimatorScript.ChangeAnimation(0);
+                    float temp = (Mathf.Abs(GetComponent<Rigidbody>().velocity.x) / maxSpeed);
+                    if (temp > maxSpeed)
+                    {
+                        spriteAnimatorScript.ChangeAnimation(1, 12f, true);
+                    }
+                    else
+                    {
+                        spriteAnimatorScript.ChangeAnimation(1, temp / maxSpeed * 12f, true);
+                    }
                 }
             }
 
@@ -160,9 +168,17 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            if (spriteAnimatorScript.currentAnimation == 0)
+            if (spriteAnimatorScript.currentAnimation != 3 || (spriteAnimatorScript.currentAnimation == 3 && !spriteAnimatorScript.methodPlayAnimation))
             {
-                spriteAnimatorScript.ChangeAnimation(1);
+                float temp = (Mathf.Abs(GetComponent<Rigidbody>().velocity.magnitude) / maxSpeed);
+                if (temp > maxSpeed)
+                {
+                    spriteAnimatorScript.ChangeAnimation(1, 12f, true);
+                }
+                else
+                {
+                    spriteAnimatorScript.ChangeAnimation(1, temp * 12f, true);
+                }
             }
 
             //GetComponent<Rigidbody>().drag = frictionAir;
@@ -175,7 +191,7 @@ public class PlayerScript : MonoBehaviour
         {
             GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, jumpPower, GetComponent<Rigidbody>().velocity.z);
             groundCheckerObject.GetComponent<GroundCheckerScript>().onGround = false;
-            spriteAnimatorScript.ChangeAnimation(3);
+            spriteAnimatorScript.ChangeAnimation(3, 12, false);
         }
     }
 

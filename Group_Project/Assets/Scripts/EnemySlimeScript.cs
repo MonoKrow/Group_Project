@@ -6,6 +6,6 @@ public class EnemySlimeScript : MonoBehaviour
 {
     void Start()
     {
-        GetComponent<SpriteAnimatorScript>().SetAnimationSpeed(6, true);
+        GetComponent<SpriteAnimatorScript>().ChangeAnimation(0, 6, true);
     }
 }
