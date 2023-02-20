@@ -17,6 +17,7 @@ public class CameraScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /*
         if (Input.mouseScrollDelta.y == -1 && Camera.main.orthographicSize < 1.95f)
         {
             Camera.main.orthographicSize += 0.1f;
@@ -25,6 +26,7 @@ public class CameraScript : MonoBehaviour
         {
             Camera.main.orthographicSize -= 0.1f;
         }
+        */
 
         Vector3 temp;
         if (Input.GetKey(KeyCode.F))

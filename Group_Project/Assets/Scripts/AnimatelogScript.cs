@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Animatelog : MonoBehaviour
+public class AnimatelogScript : MonoBehaviour
 {
     public float distance = 0;
     public bool moveup = true;
@@ -13,11 +13,11 @@ public class Animatelog : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (moveup)
         {
-            float travel = 0.1f * Time.deltaTime;
+            float travel = 0.1f * Time.fixedDeltaTime;
             distance += travel;
             transform.position += transform.up * travel;
 
@@ -28,7 +28,7 @@ public class Animatelog : MonoBehaviour
         }
         else
         {
-            float travel = 0.1f * Time.deltaTime;
+            float travel = 0.1f * Time.fixedDeltaTime;
             distance -= travel;
             transform.position -= transform.up * travel;
 
@@ -38,7 +38,7 @@ public class Animatelog : MonoBehaviour
             }
         }
 
-        GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, GetComponent<SpriteRenderer>().color.a - 0.05f * Time.deltaTime);
+        GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, GetComponent<SpriteRenderer>().color.a - 0.05f * Time.fixedDeltaTime);
 
         if (GetComponent<SpriteRenderer>().color.a <= 0)
         {

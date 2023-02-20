@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpriteAnimatorScript : MonoBehaviour
 {
+    public GameObject target;
+
     [System.Serializable]
     public class AnimationList
     {
@@ -32,6 +34,11 @@ public class SpriteAnimatorScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (target == null)
+        {
+            target = gameObject;
+        }
+
         ChangeAnimation(0, 12, true);
     }
 
@@ -49,7 +56,7 @@ public class SpriteAnimatorScript : MonoBehaviour
 
             currentFrame = 0;
             timer = 0;
-            GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentFrame];
+            target.GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentFrame];
 
             methodPlayAnimation = true;
             currentAnimation = spriteTargetID;
@@ -98,7 +105,7 @@ public class SpriteAnimatorScript : MonoBehaviour
                 }
                 else
                 {
-                    GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentSpriteList.Count - 1];
+                    target.GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentSpriteList.Count - 1];
                     methodPlayAnimation = false;
                     return;
                 }
@@ -107,6 +114,6 @@ public class SpriteAnimatorScript : MonoBehaviour
             timer -= addFrames;
         }
 
-        GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentFrame];
+        target.GetComponent<SpriteRenderer>().sprite = currentSpriteList[currentFrame];
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public GameObject groundCheckerObject;
+    public GameObject spriteRenderObject;
 
     public float speed;
     public float airSpeed;
@@ -15,9 +16,6 @@ public class PlayerScript : MonoBehaviour
     public float frictionAir;
 
     [HideInInspector]
-    public SpriteAnimatorScript spriteAnimatorScript;
-
-    [HideInInspector]
     public float knockbackCD = 0;
 
     private int keyDownMoveJump = 0;
@@ -25,7 +23,7 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
-        spriteAnimatorScript = GetComponent<SpriteAnimatorScript>();
+
     }
 
     private void FixedUpdate()
@@ -108,7 +106,7 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
-        GetComponent<SpriteRenderer>().flipX = true;
+        spriteRenderObject.GetComponent<SpriteRenderer>().flipX = true;
     }
 
     private void moveRight()
@@ -137,7 +135,7 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
-        GetComponent<SpriteRenderer>().flipX = false;
+        spriteRenderObject.GetComponent<SpriteRenderer>().flipX = false;
     }
 
     private void landCheck()
@@ -148,18 +146,18 @@ public class PlayerScript : MonoBehaviour
             {
                 if (GetComponent<Rigidbody>().velocity.x > -0.2f && GetComponent<Rigidbody>().velocity.x < 0.2f)
                 {
-                    spriteAnimatorScript.ChangeAnimation(0, 12, true);
+                    GetComponent<SpriteAnimatorScript>().ChangeAnimation(0, 12, true);
                 }
                 else
                 {
                     float temp = (Mathf.Abs(GetComponent<Rigidbody>().velocity.x) / maxSpeed);
                     if (temp > maxSpeed)
                     {
-                        spriteAnimatorScript.ChangeAnimation(1, 12f, true);
+                        GetComponent<SpriteAnimatorScript>().ChangeAnimation(1, 12f, true);
                     }
                     else
                     {
-                        spriteAnimatorScript.ChangeAnimation(1, temp / maxSpeed * 12f, true);
+                        GetComponent<SpriteAnimatorScript>().ChangeAnimation(1, temp * 12f, true);
                     }
                 }
             }
@@ -168,16 +166,16 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            if (spriteAnimatorScript.currentAnimation != 3 || (spriteAnimatorScript.currentAnimation == 3 && !spriteAnimatorScript.methodPlayAnimation))
+            if (GetComponent<SpriteAnimatorScript>().currentAnimation != 3 || (GetComponent<SpriteAnimatorScript>().currentAnimation == 3 && !GetComponent<SpriteAnimatorScript>().methodPlayAnimation))
             {
                 float temp = (Mathf.Abs(GetComponent<Rigidbody>().velocity.magnitude) / maxSpeed);
                 if (temp > maxSpeed)
                 {
-                    spriteAnimatorScript.ChangeAnimation(1, 12f, true);
+                    GetComponent<SpriteAnimatorScript>().ChangeAnimation(1, 12f, true);
                 }
                 else
                 {
-                    spriteAnimatorScript.ChangeAnimation(1, temp * 12f, true);
+                    GetComponent<SpriteAnimatorScript>().ChangeAnimation(1, temp * 12f, true);
                 }
             }
 
@@ -191,7 +189,7 @@ public class PlayerScript : MonoBehaviour
         {
             GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, jumpPower, GetComponent<Rigidbody>().velocity.z);
             groundCheckerObject.GetComponent<GroundCheckerScript>().onGround = false;
-            spriteAnimatorScript.ChangeAnimation(3, 12, false);
+            GetComponent<SpriteAnimatorScript>().ChangeAnimation(3, 12, false);
         }
     }
 
