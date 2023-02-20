@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LazerSpin : MonoBehaviour
 {
+    public float move;
     // Start is called before the first frame update
     void Start()
     {
@@ -11,8 +12,8 @@ public class LazerSpin : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        transform.Rotate(0, 0, move);
     }
 }
