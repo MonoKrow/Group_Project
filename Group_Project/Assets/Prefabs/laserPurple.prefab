@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2651217951572228798}
   - component: {fileID: 4520565760934467928}
   - component: {fileID: 3483633318803151540}
+  - component: {fileID: 8702462985429649252}
   m_Layer: 0
   m_Name: laserPurple
   m_TagString: Untagged
@@ -96,3 +97,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   lifetime: 0
+  muitplyKnockback: {x: 0, y: 0, z: 0}
+  addKnockback: {x: 0, y: 0, z: 0}
+--- !u!65 &8702462985429649252
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5380290913054805016}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.35182065, y: 0.1089192, z: 0.2}
+  m_Center: {x: 0.012682021, y: 0.007777393, z: 0}

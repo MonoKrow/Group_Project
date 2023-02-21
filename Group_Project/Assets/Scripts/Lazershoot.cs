@@ -12,6 +12,8 @@ public class Lazershoot : MonoBehaviour
     public float speed;
     public float lifetime;
     public float shotCD;
+    public Vector3 muitplyKnockback;
+    public Vector3 addKnockback;
 
     private float spawnCD = 0;
     // Start is called before the first frame update
@@ -33,6 +35,8 @@ public class Lazershoot : MonoBehaviour
             tempedit.transform.Rotate(new Vector3(0, 0, rotationDirection));
             tempedit.GetComponent<ProjectileScript>().speed = speed;
             tempedit.GetComponent<ProjectileScript>().lifetime = lifetime;
+            tempedit.GetComponent<ProjectileScript>().muitplyKnockback = muitplyKnockback;
+            tempedit.GetComponent<ProjectileScript>().addKnockback = addKnockback;
 
             spawnCD += shotCD;
         }

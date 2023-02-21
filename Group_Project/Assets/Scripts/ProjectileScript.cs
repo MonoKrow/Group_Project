@@ -8,6 +8,10 @@ public class ProjectileScript : MonoBehaviour
     public float speed;
     [HideInInspector]
     public float lifetime;
+    [HideInInspector]
+    public Vector3 muitplyKnockback;
+    [HideInInspector]
+    public Vector3 addKnockback;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +31,13 @@ public class ProjectileScript : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerTriggerBoxScript>())
+        {
+            other.GetComponent<PlayerTriggerBoxScript>().target.onKnockback(transform.position, muitplyKnockback, addKnockback);
         }
     }
 }
