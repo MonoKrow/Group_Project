@@ -65,10 +65,16 @@ public class GameMannager : MonoBehaviour
         {
             changeGameState(gameStateList.gameLose);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            healthChange(-1);
+        }
     }
 
     private void FixedUpdate()
     {
+        /*
         if (Input.GetKey(KeyCode.Minus))
         {
             if (1 / Time.fixedDeltaTime > 30.9f)
@@ -85,11 +91,22 @@ public class GameMannager : MonoBehaviour
                 fpsTargetText.text = "Targeted FPS: " + 1 / Time.fixedDeltaTime;
             }
         }
+        */
     }
 
     public void itemCountChange(float amount)
     {
         itemLeft += amount;
+    }
+
+    public void healthChange(float amount)
+    {
+        health += amount;
+
+        if (health <= 0)
+        {
+            playerObject.GetComponent<PlayerScript>().onDeath();
+        }
     }
 
     public void changeGameState(gameStateList state)

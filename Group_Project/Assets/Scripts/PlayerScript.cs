@@ -17,6 +17,8 @@ public class PlayerScript : MonoBehaviour
 
     [HideInInspector]
     public float knockbackCD = 0;
+    [HideInInspector]
+    public bool isDead = false;
 
     private int keyDownMoveJump = 0;
 
@@ -28,6 +30,16 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead)
+        {
+            if (GetComponent<SpriteAnimatorScript>().currentAnimation == 4 && GetComponent<SpriteAnimatorScript>().methodPlayAnimation == false)
+            {
+                GameMannager.instance.changeGameState(GameMannager.gameStateList.gameLose);
+            }
+
+            return;
+        }
+
         //Cooldown:
         if (knockbackCD > 0)
         {
@@ -80,7 +92,7 @@ public class PlayerScript : MonoBehaviour
         landCheck();
     }
 
-    private void moveLeft()
+    public void moveLeft()
     {
         if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
         {
@@ -109,7 +121,7 @@ public class PlayerScript : MonoBehaviour
         spriteRenderObject.GetComponent<SpriteRenderer>().flipX = true;
     }
 
-    private void moveRight()
+    public void moveRight()
     {
         if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
         {
@@ -138,7 +150,7 @@ public class PlayerScript : MonoBehaviour
         spriteRenderObject.GetComponent<SpriteRenderer>().flipX = false;
     }
 
-    private void landCheck()
+    public void landCheck()
     {
         if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround)
         {
@@ -183,7 +195,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    private void onJump()
+    public void onJump()
     {
         if (groundCheckerObject.GetComponent<GroundCheckerScript>().onGround && GetComponent<Rigidbody>().velocity.y <= 0)
         {
@@ -191,6 +203,13 @@ public class PlayerScript : MonoBehaviour
             groundCheckerObject.GetComponent<GroundCheckerScript>().onGround = false;
             GetComponent<SpriteAnimatorScript>().ChangeAnimation(3, 12, false);
         }
+    }
+
+    public void onDeath()
+    {
+        isDead = true;
+
+        GetComponent<SpriteAnimatorScript>().ChangeAnimation(4, 12, false);
     }
 
     public void onKnockback(Vector3 fromPosition, Vector3 forceMutiplyer, Vector3 addedForce)
