@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     public GameObject groundCheckerObject;
     public GameObject spriteRenderObject;
+    public GameMannager gameMannager;
 
     public float speed;
     public float airSpeed;
@@ -67,6 +68,15 @@ public class PlayerScript : MonoBehaviour
         else
         {
             keyDownMoveJump = 0;
+        }
+
+        if (Input.GetKey(KeyCode.P) && gameMannager.pauseMenu.activeSelf == false)
+        {
+            gameMannager.changeGameState(GameMannager.gameStateList.pause);
+        }
+        else if (gameMannager.pauseMenu.activeSelf == true)
+        {
+            gameMannager.changeGameState(GameMannager.gameStateList.gamePlay);
         }
 
         //ScriptsUpdate:
