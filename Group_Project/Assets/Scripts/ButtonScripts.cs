@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ButtonScripts : MonoBehaviour
 {
+    public GameMannager gameMannager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,4 +23,20 @@ public class ButtonScripts : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void ContinueClick()
+    {
+        gameMannager.changeGameState(GameMannager.gameStateList.gamePlay);
+    }
+
+    public void BackClick()
+    {
+        gameMannager.changeGameState(GameMannager.gameStateList.pause);
+    }
+
+    public void InstructionsClick()
+    {
+        gameMannager.changeGameState(GameMannager.gameStateList.instructions);
+    }
+
 }

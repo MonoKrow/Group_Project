@@ -70,14 +70,18 @@ public class PlayerScript : MonoBehaviour
             keyDownMoveJump = 0;
         }
 
-        if (Input.GetKey(KeyCode.P) && gameMannager.pauseMenu.activeSelf == false)
+        if (Input.GetKeyDown(KeyCode.P)|| Input.GetKeyDown(KeyCode.Escape)) 
         {
-            gameMannager.changeGameState(GameMannager.gameStateList.pause);
+            if (gameMannager.pauseMenu.activeSelf == false)
+            {
+                gameMannager.changeGameState(GameMannager.gameStateList.pause);
+            }
+            else if (gameMannager.pauseMenu.activeSelf == true)
+            {
+                gameMannager.changeGameState(GameMannager.gameStateList.gamePlay);
+            }
         }
-        else if (gameMannager.pauseMenu.activeSelf == true)
-        {
-            gameMannager.changeGameState(GameMannager.gameStateList.gamePlay);
-        }
+        
 
         //ScriptsUpdate:
 
