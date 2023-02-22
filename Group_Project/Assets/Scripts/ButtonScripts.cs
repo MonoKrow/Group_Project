@@ -22,6 +22,7 @@ public class ButtonScripts : MonoBehaviour
     public void OnRestartClick()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        gameMannager.changeGameState(GameMannager.gameStateList.gamePlay);
     }
 
     public void ContinueClick()
@@ -39,4 +40,8 @@ public class ButtonScripts : MonoBehaviour
         gameMannager.changeGameState(GameMannager.gameStateList.instructions);
     }
 
+    public void QuitClick()
+    {
+        Application.Quit();
+    }
 }
