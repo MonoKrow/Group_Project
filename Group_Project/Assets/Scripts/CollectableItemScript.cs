@@ -19,6 +19,7 @@ public class CollectableItemScript : MonoBehaviour
         {
             onRunning = true;
             GameMannager.instance.itemCountChange(itemChangeAmount);
+            GameMannager.instance.playAudioOneshot(GameMannager.audioSourcesName.gameplay, GameMannager.audioClipsName.CollectPoint, 0.01f);
             Destroy(gameObject);
         }
     }

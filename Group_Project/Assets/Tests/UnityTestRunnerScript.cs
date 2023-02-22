@@ -138,62 +138,59 @@ namespace Tests
         [UnityTest]
         public IEnumerator PlayerPausedGame()
         {
-            /*
-            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.gamePlay);
+
+            yield return new WaitForSecondsRealtime(0.5f);
+
+            GameMannager.instance.OnEscKeyDown();
+
+            yield return new WaitForSecondsRealtime(0.5f);
             Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
-            */
-            yield return null;
-            Assert.Fail("Not Added Yet");
         }
 
         [UnityTest]
         public IEnumerator ButtonResumeGame()
         {
-            /*
             GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
-            */
-            yield return null;
-            Assert.Fail("Not Added Yet");
-        }
 
-        [UnityTest]
-        public IEnumerator ButtonQuitGame()
-        {
-            /*
-            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
-            */
-            yield return null;
-            Assert.Fail("Not Added Yet");
-        }
+            yield return new WaitForSecondsRealtime(0.5f);
 
+            GameMannager.instance.OnEscKeyDown();
+
+            yield return new WaitForSecondsRealtime(0.5f);
+
+            Assert.AreNotEqual(Time.timeScale, 0);
+        }
 
         [UnityTest]
         public IEnumerator ButtonInstructions()
         {
-            /*
-            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
-            */
-            yield return null;
-            Assert.Fail("Not Added Yet");
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.gamePlay);
+
+            yield return new WaitForSecondsRealtime(0.5f);
+
+            GameMannager.instance.OnEscKeyDown();
+            GameMannager.instance.InstructionsClick();
+
+            yield return new WaitForSecondsRealtime(0.5f);
+            Assert.IsTrue(GameMannager.instance.instructionsMenu.activeSelf);
         }
 
         [UnityTest]
         public IEnumerator ButtonRestartGame()
         {
-            /*
-            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
-            */
-            yield return null;
-            Assert.Fail("Not Added Yet");
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.gamePlay);
+            GameMannager.instance.health = 100;
+
+            yield return new WaitForSecondsRealtime(0.5f);
+
+            GameMannager.instance.OnEscKeyDown();
+            GameMannager.instance.OnRestartClick();
+
+            yield return new WaitForSecondsRealtime(0.5f);
+
+
+            Assert.AreNotEqual(GameMannager.instance.health, 100);
         }
 
         [UnityTest]

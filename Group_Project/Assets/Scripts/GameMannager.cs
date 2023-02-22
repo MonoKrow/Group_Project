@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameMannager : MonoBehaviour
 {
@@ -10,6 +11,31 @@ public class GameMannager : MonoBehaviour
 
     [Space]
     [Space]
+    [Space]
+
+    public List<AudioSource> audioSource;
+
+    [SerializeField]
+    public enum audioSourcesName
+    {
+        BGAudio,
+        gameplay
+    }
+
+
+    public List<AudioClip> audioClip;
+
+    [SerializeField]
+    public enum audioClipsName
+    {
+        BGM,
+        CollectPoint,
+        PlayerJump,
+        PlayerGotHit,
+        PlayerDeath,
+        Win
+    }
+
     [Space]
 
     public float itemLeft = 0;
@@ -25,7 +51,8 @@ public class GameMannager : MonoBehaviour
     public GameObject gameoverMenu;
     public GameObject instructionsMenu;
 
-    public Text fpsTargetText;
+    private bool firstStartUp = true;
+    private bool keyESCDown = false;
 
     [SerializeField]
     public enum gameStateList
@@ -39,15 +66,18 @@ public class GameMannager : MonoBehaviour
 
     void Start()
     {
-
         if (instance == null)
         {
             instance = this;
         }
         else
         {
-            Destroy(gameObject);
+            return;
         }
+
+        AudioListener.volume = 10;
+        changeGameState(gameStateList.instructions);
+        playAudio(audioSourcesName.BGAudio, audioClipsName.BGM, 0.01f, true);
     }
 
     private void Update()
@@ -73,28 +103,11 @@ public class GameMannager : MonoBehaviour
         {
             healthChange(-1);
         }
-    }
 
-    private void FixedUpdate()
-    {
-        /*
-        if (Input.GetKey(KeyCode.Minus))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (1 / Time.fixedDeltaTime > 30.9f)
-            {
-                Time.fixedDeltaTime = 1f / ((1 / Time.fixedDeltaTime) - 1);
-                fpsTargetText.text = "Targeted FPS: " + 1 / Time.fixedDeltaTime;
-            }
+            OnEscKeyDown();
         }
-        else if (Input.GetKey(KeyCode.Equals))
-        {
-            if (1 / Time.fixedDeltaTime < 239.9f)
-            {
-                Time.fixedDeltaTime = 1f / ((1 / Time.fixedDeltaTime) + 1);
-                fpsTargetText.text = "Targeted FPS: " + 1 / Time.fixedDeltaTime;
-            }
-        }
-        */
     }
 
     public void itemCountChange(float amount)
@@ -110,6 +123,19 @@ public class GameMannager : MonoBehaviour
         {
             playerObject.GetComponent<PlayerScript>().onDeath();
         }
+    }
+
+    public void playAudio(audioSourcesName _audioSource, audioClipsName _audioClip, float volume, bool loop)
+    {
+        audioSource[(int)_audioSource].volume = volume;
+        audioSource[(int)_audioSource].loop = loop;
+        audioSource[(int)_audioSource].clip = audioClip[(int)_audioClip];
+        audioSource[(int)_audioSource].Play();
+    }
+
+    public void playAudioOneshot(audioSourcesName _audioSource, audioClipsName _audioClip, float volume)
+    {
+        audioSource[(int)_audioSource].PlayOneShot(audioClip[(int)_audioClip], volume);
     }
 
     public void changeGameState(gameStateList state)
@@ -129,7 +155,7 @@ public class GameMannager : MonoBehaviour
 
             case gameStateList.pause:
                 {
-                    
+
                     backgroundMenu.SetActive(true);
                     pauseMenu.SetActive(true);
                     gamewinMenu.SetActive(false);
@@ -172,5 +198,59 @@ public class GameMannager : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    public void OnEscKeyDown()
+    {
+        if (pauseMenu.activeInHierarchy)
+        {
+            changeGameState(gameStateList.gamePlay);
+        }
+        else if (instructionsMenu.activeInHierarchy)
+        {
+            BackToPauseClick();
+        }
+        else if (gamewinMenu.activeInHierarchy || gamewinMenu.activeInHierarchy)
+        {
+            OnRestartClick();
+        }
+        else
+        {
+            changeGameState(gameStateList.pause);
+        }
+    }
+
+    public void OnRestartClick()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        changeGameState(gameStateList.gamePlay);
+    }
+
+    public void ContinueClick()
+    {
+        changeGameState(gameStateList.gamePlay);
+    }
+
+    public void InstructionsClick()
+    {
+        changeGameState(gameStateList.instructions);
+    }
+
+    public void BackToPauseClick()
+    {
+        if (firstStartUp)
+        {
+            changeGameState(gameStateList.gamePlay);
+            firstStartUp = false;
+        }
+        else
+        {
+            changeGameState(gameStateList.pause);
+        }
+    }
+
+    public void QuitClick()
+    {
+        Application.Quit();
     }
 }

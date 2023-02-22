@@ -6,7 +6,6 @@ public class PlayerScript : MonoBehaviour
 {
     public GameObject groundCheckerObject;
     public GameObject spriteRenderObject;
-    public GameMannager gameMannager;
 
     public float speed;
     public float airSpeed;
@@ -27,21 +26,6 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
 
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (gameMannager.pauseMenu.activeSelf == true)
-            {
-                gameMannager.changeGameState(GameMannager.gameStateList.gamePlay);
-            }
-            else
-            {
-                gameMannager.changeGameState(GameMannager.gameStateList.pause);
-            }
-        }
     }
 
     private void FixedUpdate()
@@ -221,14 +205,15 @@ public class PlayerScript : MonoBehaviour
             GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, jumpPower, GetComponent<Rigidbody>().velocity.z);
             groundCheckerObject.GetComponent<GroundCheckerScript>().onGround = false;
             GetComponent<SpriteAnimatorScript>().ChangeAnimation(3, 12, false);
+            GameMannager.instance.playAudioOneshot(GameMannager.audioSourcesName.gameplay, GameMannager.audioClipsName.PlayerJump, 0.01f);
         }
     }
 
     public void onDeath()
     {
         isDead = true;
-
         GetComponent<SpriteAnimatorScript>().ChangeAnimation(4, 12, false);
+        GameMannager.instance.playAudioOneshot(GameMannager.audioSourcesName.gameplay, GameMannager.audioClipsName.PlayerDeath, 0.01f);
     }
 
     public void onKnockback(Vector3 fromPosition, Vector3 forceMutiplyer, Vector3 addedForce)
