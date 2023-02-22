@@ -9,6 +9,9 @@ namespace Tests
 {
     public class UnityTestRunnerScript
     {
+        // Use the Assert class to test conditions.
+        // Use yield to skip a frame.
+
         [SetUp]
         public void Setup()
         {
@@ -30,9 +33,6 @@ namespace Tests
             }
 
             Assert.Greater(player.transform.position.x, currentPos.x);
-
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
         }
 
         [UnityTest]
@@ -83,8 +83,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator PlayerDeath()
         {
-            GameObject player = Object.FindObjectOfType<PlayerScript>().gameObject;
-            player.GetComponent<PlayerScript>().onDeath();
+            GameMannager.instance.healthChange(-9999);
 
             for (int loop = 0; loop < 180; loop++)
             {
@@ -111,6 +110,90 @@ namespace Tests
             yield return new WaitForSeconds(Time.fixedDeltaTime * 30);
 
             Assert.AreNotEqual(player.transform.position, currentPos);
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerWin()
+        {
+            /*
+            GameObject player = Object.FindObjectOfType<PlayerScript>().gameObject;
+
+            //teleport to goal spot
+
+            for (int loop = 0; loop < 45; loop++)
+            {
+                if (GameMannager.instance.gamewinMenu.activeInHierarchy == true)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
+            }
+
+            Assert.IsTrue(GameMannager.instance.gamewinMenu.activeSelf);
+            */
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerPausedGame()
+        {
+            /*
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
+            */
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator ButtonResumeGame()
+        {
+            /*
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
+            */
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator ButtonQuitGame()
+        {
+            /*
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
+            */
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+
+        [UnityTest]
+        public IEnumerator ButtonInstructions()
+        {
+            /*
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
+            */
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator ButtonRestartGame()
+        {
+            /*
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.pause);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            Assert.IsTrue(GameMannager.instance.pauseMenu.activeSelf);
+            */
+            yield return null;
+            Assert.Fail("Not Added Yet");
         }
 
         [UnityTest]
@@ -153,5 +236,76 @@ namespace Tests
 
             Assert.IsFalse(enemy.GetComponent<EnemyScript>().movingRight);
         }
+
+        [UnityTest]
+        public IEnumerator SlimeHitPlayer()
+        {
+            /*
+            GameObject enemy = Object.FindObjectOfType<EnemyScript>().gameObject;
+
+            enemy.GetComponent<EnemyScript>().movingRight = true;
+            float startingHealth = GameMannager.instance.health;
+
+            for (int loop = 0; loop < 180; loop++)
+            {
+                if (GameMannager.instance.health != startingHealth)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
+            }
+
+            Assert.Less(GameMannager.instance.health, startingHealth);
+            */
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator LazerHitPlayer()
+        {
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator BeamHitPlayer()
+        {
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerTouchSpike()
+        {
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator TurretShot()
+        {
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator BeamTurretRotating()
+        {
+            yield return null;
+            Assert.Fail("Not Added Yet");
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerCollectItem()
+        {
+            float totalItemSpawned = GameMannager.instance.itemLeft;
+            Object.FindObjectOfType<CollectableItemScript>().gameObject.transform.position = GameMannager.instance.playerObject.transform.position;
+
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+
+            Assert.Less(GameMannager.instance.itemLeft, totalItemSpawned);
+        }
+
     }
 }
