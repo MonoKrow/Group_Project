@@ -23,6 +23,7 @@ public class GameMannager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject gamewinMenu;
     public GameObject gameoverMenu;
+    public GameObject instructionsMenu;
 
     public Text fpsTargetText;
 
@@ -32,11 +33,13 @@ public class GameMannager : MonoBehaviour
         gamePlay,
         gameWin,
         gameLose,
-        pause
+        pause,
+        instructions
     }
 
     void Start()
     {
+
         if (instance == null)
         {
             instance = this;
@@ -119,16 +122,19 @@ public class GameMannager : MonoBehaviour
                     pauseMenu.SetActive(false);
                     gamewinMenu.SetActive(false);
                     gameoverMenu.SetActive(false);
+                    instructionsMenu.SetActive(false);
                     Time.timeScale = 1;
                     break;
                 }
 
             case gameStateList.pause:
                 {
+                    
                     backgroundMenu.SetActive(true);
                     pauseMenu.SetActive(true);
                     gamewinMenu.SetActive(false);
                     gameoverMenu.SetActive(false);
+                    instructionsMenu.SetActive(false);
                     Time.timeScale = 0;
                     break;
                 }
@@ -139,6 +145,7 @@ public class GameMannager : MonoBehaviour
                     pauseMenu.SetActive(false);
                     gamewinMenu.SetActive(true);
                     gameoverMenu.SetActive(false);
+                    instructionsMenu.SetActive(false);
                     Time.timeScale = 0;
                     break;
                 }
@@ -149,6 +156,18 @@ public class GameMannager : MonoBehaviour
                     pauseMenu.SetActive(false);
                     gamewinMenu.SetActive(false);
                     gameoverMenu.SetActive(true);
+                    instructionsMenu.SetActive(false);
+                    Time.timeScale = 0;
+                    break;
+                }
+
+            case gameStateList.instructions:
+                {
+                    backgroundMenu.SetActive(true);
+                    pauseMenu.SetActive(false);
+                    gamewinMenu.SetActive(false);
+                    gameoverMenu.SetActive(false);
+                    instructionsMenu.SetActive(true);
                     Time.timeScale = 0;
                     break;
                 }

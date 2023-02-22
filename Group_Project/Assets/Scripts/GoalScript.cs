@@ -20,11 +20,22 @@ public class GoalScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Player")
+        if (other.gameObject.tag == "Player")
         {
             Debug.Log("Goal Reached.");
             audioSource.PlayOneShot(WinSound);
             
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "PlayerObject")
+        {
+            Debug.Log("Goal Reached.");
+            audioSource.PlayOneShot(WinSound);
+
+        }
+    }
+
 }
