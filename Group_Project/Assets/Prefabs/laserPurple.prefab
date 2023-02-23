@@ -97,8 +97,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   lifetime: 0
-  muitplyKnockback: {x: 0, y: 0, z: 0}
-  addKnockback: {x: 0, y: 0, z: 0}
+  knockbackForce: {x: 0, y: 0, z: 0}
+  knockbackForceMutiplyer: {x: 0, y: 0, z: 0}
+  knockbackForceOffset: {x: 0, y: 0, z: 0}
 --- !u!65 &8702462985429649252
 BoxCollider:
   m_ObjectHideFlags: 0

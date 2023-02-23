@@ -11,4 +11,19 @@ public class EnemyTriggerBoxScript : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerTriggerBoxScript>())
+        {
+            GameMannager.instance.healthChange(-1, transform.position + target.knockbackForceOffset, target.knockbackForceMutiplyer, target.knockbackForce);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<PlayerTriggerBoxScript>())
+        {
+            GameMannager.instance.healthChange(-1, transform.position + target.knockbackForceOffset, target.knockbackForceMutiplyer, target.knockbackForce);
+        }
+    }
 }

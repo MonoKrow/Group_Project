@@ -18,5 +18,9 @@ public class PlayerTriggerBoxScript : MonoBehaviour
         {
             other.GetComponent<CollectableItemScript>().onRun();
         }
+        else if (other.GetComponent<GoalScript>())
+        {
+            GameMannager.instance.changeGameState(GameMannager.gameStateList.gameWin);
+        }
     }
 }

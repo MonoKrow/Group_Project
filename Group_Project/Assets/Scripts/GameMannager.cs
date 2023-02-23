@@ -9,6 +9,10 @@ public class GameMannager : MonoBehaviour
     public static GameMannager instance;
     public GameObject playerObject;
     public GameObject goalObject;
+    [Space]
+    public GameObject healthBar;
+    public Sprite filledHeart;
+    public Sprite empthyHeart;
 
     [Space]
     [Space]
@@ -42,6 +46,7 @@ public class GameMannager : MonoBehaviour
     public float itemLeft = 0;
     public float health = 0;
 
+
     [Space]
     [Space]
     [Space]
@@ -53,7 +58,7 @@ public class GameMannager : MonoBehaviour
     public GameObject instructionsMenu;
 
     private bool firstStartUp = true;
-    private bool keyESCDown = false;
+    private int damageTakenCD = 0;
 
     [SerializeField]
     public enum gameStateList
@@ -102,12 +107,20 @@ public class GameMannager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            healthChange(-1);
+            healthChange(-1, Vector3.zero, Vector3.zero, Vector3.zero);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OnEscKeyDown();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (damageTakenCD > 0 && health > 0)
+        {
+            damageTakenCD--;
         }
     }
 
@@ -121,13 +134,46 @@ public class GameMannager : MonoBehaviour
         }
     }
 
-    public void healthChange(float amount)
+    public void healthChange(float amount, Vector3 fromPosition, Vector3 forceMutiplyer, Vector3 addedForce)
     {
-        health += amount;
-
-        if (health <= 0)
+        if (damageTakenCD <= 0)
         {
-            playerObject.GetComponent<PlayerScript>().onDeath();
+            health += amount;
+
+            for (int loop = 0; loop < health; loop++)
+            {
+                if (loop >= healthBar.transform.childCount)
+                {
+                    break;
+                }
+
+                healthBar.transform.GetChild(loop).GetComponent<Image>().sprite = filledHeart;
+            }
+
+            if (health > 0)
+            {
+                for (int loop = (int)health; loop < healthBar.transform.childCount; loop++)
+                {
+                    healthBar.transform.GetChild(loop).GetComponent<Image>().sprite = empthyHeart;
+                }
+            }
+            else
+            {
+                for (int loop = 0; loop < healthBar.transform.childCount; loop++)
+                {
+                    healthBar.transform.GetChild(loop).GetComponent<Image>().sprite = empthyHeart;
+                }
+            }
+
+            playerObject.GetComponent<PlayerScript>().onKnockback(fromPosition, forceMutiplyer, addedForce);
+            playAudioOneshot(audioSourcesName.gameplay, audioClipsName.PlayerGotHit, 0.01f);
+
+            if (health <= 0)
+            {
+                playerObject.GetComponent<PlayerScript>().onDeath();
+            }
+
+            damageTakenCD = 120;
         }
     }
 

@@ -16,7 +16,7 @@ public class PlayerScript : MonoBehaviour
     public float frictionAir;
 
     [HideInInspector]
-    public float knockbackCD = 0;
+    public int knockbackCD = 0;
     [HideInInspector]
     public bool isDead = false;
 
@@ -43,7 +43,7 @@ public class PlayerScript : MonoBehaviour
         //Cooldown:
         if (knockbackCD > 0)
         {
-            knockbackCD -= Time.fixedDeltaTime;
+            knockbackCD--;
         }
 
         //EarlyCheckers:
@@ -212,7 +212,7 @@ public class PlayerScript : MonoBehaviour
     public void onDeath()
     {
         isDead = true;
-        GetComponent<SpriteAnimatorScript>().ChangeAnimation(4, 12, false);
+        GetComponent<SpriteAnimatorScript>().ChangeAnimation(4, 6, false);
         GameMannager.instance.playAudioOneshot(GameMannager.audioSourcesName.gameplay, GameMannager.audioClipsName.PlayerDeath, 0.01f);
     }
 
@@ -236,7 +236,7 @@ public class PlayerScript : MonoBehaviour
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + temp2.x, temp2.y, GetComponent<Rigidbody>().velocity.z + temp2.z);
             }
 
-            knockbackCD = 0.5f;
+            knockbackCD = 1;
         }
     }
 }

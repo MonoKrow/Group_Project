@@ -9,13 +9,15 @@ public class ProjectileScript : MonoBehaviour
     [HideInInspector]
     public float lifetime;
     [HideInInspector]
-    public Vector3 muitplyKnockback;
+    public Vector3 knockbackForce;
     [HideInInspector]
-    public Vector3 addKnockback;
+    public Vector3 knockbackForceMutiplyer;
+    [HideInInspector]
+    public Vector3 knockbackForceOffset;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -33,11 +35,20 @@ public class ProjectileScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerTriggerBoxScript>())
         {
-            other.GetComponent<PlayerTriggerBoxScript>().target.onKnockback(transform.position, muitplyKnockback, addKnockback);
+            GameMannager.instance.healthChange(-1, transform.position + knockbackForceOffset, knockbackForceMutiplyer, knockbackForce);
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<PlayerTriggerBoxScript>())
+        {
+            GameMannager.instance.healthChange(-1, transform.position + knockbackForceOffset, knockbackForceMutiplyer, knockbackForce);
         }
     }
 }

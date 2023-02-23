@@ -29,8 +29,6 @@ public class EnemyScript : MonoBehaviour
     [HideInInspector]
     public List<bool> jumpCheckT = new List<bool>();
 
-    private bool fixUpdateJump = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -118,21 +116,9 @@ public class EnemyScript : MonoBehaviour
         {
             movingRight = true;
         }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.GetComponent<PlayerScript>())
+        else
         {
-            other.gameObject.GetComponent<PlayerScript>().onKnockback(transform.position + knockbackForceOffset, knockbackForceMutiplyer, knockbackForce);
-        }
-    }
-
-    private void OnCollisionStay(Collision other)
-    {
-        if (other.gameObject.GetComponent<PlayerScript>())
-        {
-            other.gameObject.GetComponent<PlayerScript>().onKnockback(transform.position + knockbackForceOffset, knockbackForceMutiplyer, knockbackForce);
+            movingRight = !movingRight;
         }
     }
 }
