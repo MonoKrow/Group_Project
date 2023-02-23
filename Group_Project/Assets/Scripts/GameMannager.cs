@@ -8,6 +8,7 @@ public class GameMannager : MonoBehaviour
 {
     public static GameMannager instance;
     public GameObject playerObject;
+    public GameObject goalObject;
 
     [Space]
     [Space]
@@ -113,6 +114,11 @@ public class GameMannager : MonoBehaviour
     public void itemCountChange(float amount)
     {
         itemLeft += amount;
+
+        if (itemLeft <= 0)
+        {
+            goalObject.SetActive(true);
+        }
     }
 
     public void healthChange(float amount)
