@@ -9,6 +9,8 @@ public class GameMannager : MonoBehaviour
     public static GameMannager instance;
     public GameObject playerObject;
     public GameObject goalObject;
+    public Slider screenScaleSlider;
+    public Text screenScaleText;
     [Space]
     public GameObject healthBar;
     public Sprite filledHeart;
@@ -59,6 +61,7 @@ public class GameMannager : MonoBehaviour
 
     private bool firstStartUp = true;
     private int damageTakenCD = 0;
+    private bool scaleingScreen = false;
 
     [SerializeField]
     public enum gameStateList
@@ -81,6 +84,20 @@ public class GameMannager : MonoBehaviour
             return;
         }
 
+        if (!PlayerPrefs.HasKey("ScreenScale"))
+        {
+            PlayerPrefs.SetFloat("ScreenScale", 0.5f);
+        }
+
+        if (Display.main.systemWidth / 16f > Display.main.systemHeight / 9f)
+        {
+            Screen.SetResolution((int)(Display.main.systemHeight * PlayerPrefs.GetFloat("ScreenScale") * (16f / 9f)), (int)(Display.main.systemHeight * PlayerPrefs.GetFloat("ScreenScale")), FullScreenMode.Windowed);
+        }
+        else
+        {
+            Screen.SetResolution((int)(Display.main.systemWidth * PlayerPrefs.GetFloat("ScreenScale")), (int)(Display.main.systemWidth * PlayerPrefs.GetFloat("ScreenScale") * (9f / 16f)), FullScreenMode.Windowed);
+        }
+
         AudioListener.volume = 10;
         changeGameState(gameStateList.instructions);
         playAudio(audioSourcesName.BGAudio, audioClipsName.BGM, 0.01f, true);
@@ -88,31 +105,31 @@ public class GameMannager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            changeGameState(gameStateList.gamePlay);
-        }
-        else if (Input.GetKey(KeyCode.Alpha2))
-        {
-            changeGameState(gameStateList.pause);
-        }
-        else if (Input.GetKey(KeyCode.Alpha3))
-        {
-            changeGameState(gameStateList.gameWin);
-        }
-        else if (Input.GetKey(KeyCode.Alpha4))
-        {
-            changeGameState(gameStateList.gameLose);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            healthChange(-1, Vector3.zero, Vector3.zero, Vector3.zero);
-        }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OnEscKeyDown();
+        }
+
+        if (scaleingScreen && !Input.GetMouseButton(0))
+        {
+            scaleingScreen = false;
+
+            if (!PlayerPrefs.HasKey("ScreenScale"))
+            {
+                PlayerPrefs.SetFloat("ScreenScale", 0.5f);
+            }
+
+            PlayerPrefs.SetFloat("ScreenScale", screenScaleSlider.value);
+            screenScaleText.text = "Screen Scale: " + (Mathf.RoundToInt(screenScaleSlider.value * 100f) / 100f) + "x";
+
+            if (Display.main.systemWidth / 16f > Display.main.systemHeight / 9f)
+            {
+                Screen.SetResolution((int)(Display.main.systemHeight * PlayerPrefs.GetFloat("ScreenScale") * (16f / 9f)), (int)(Display.main.systemHeight * PlayerPrefs.GetFloat("ScreenScale")), FullScreenMode.Windowed);
+            }
+            else
+            {
+                Screen.SetResolution((int)(Display.main.systemWidth * PlayerPrefs.GetFloat("ScreenScale")), (int)(Display.main.systemWidth * PlayerPrefs.GetFloat("ScreenScale") * (9f / 16f)), FullScreenMode.Windowed);
+            }
         }
     }
 
@@ -213,6 +230,8 @@ public class GameMannager : MonoBehaviour
                     gamewinMenu.SetActive(false);
                     gameoverMenu.SetActive(false);
                     instructionsMenu.SetActive(false);
+                    screenScaleSlider.value = PlayerPrefs.GetFloat("ScreenScale");
+                    screenScaleText.text = "Screen Scale: " + (Mathf.RoundToInt(screenScaleSlider.value * 100f) / 100f) + "x";
                     Time.timeScale = 0;
                     break;
                 }
@@ -225,6 +244,7 @@ public class GameMannager : MonoBehaviour
                     gameoverMenu.SetActive(false);
                     instructionsMenu.SetActive(false);
                     Time.timeScale = 0;
+                    playAudioOneshot(audioSourcesName.gameplay, audioClipsName.Win, 0.015f);
                     break;
                 }
 
@@ -304,5 +324,14 @@ public class GameMannager : MonoBehaviour
     public void QuitClick()
     {
         Application.Quit();
+    }
+
+    public void onScreenSlider()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            scaleingScreen = true;
+            screenScaleText.text = "Screen Scale: " + (Mathf.RoundToInt(screenScaleSlider.value * 100f) / 100f) + "x";
+        }
     }
 }
